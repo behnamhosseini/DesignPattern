@@ -1,0 +1,2 @@
+We use this pattern when there are various objects and we don't know what kind of object and how it is going to be used until the program is executed.
+We also want there to be a way to have infinite types of objects, each of which has a different way of construction.
