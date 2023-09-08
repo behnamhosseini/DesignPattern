@@ -1,3 +1,5 @@
+<!-- In this scenario, we'll design a simple accounting system that allows you to create and delete financial transactions. -->
+
 <?php
 interface Command {
     public function execute();
