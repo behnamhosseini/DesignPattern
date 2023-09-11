@@ -1,48 +1,48 @@
 <?php
 //  Below is an example of implementing an API in PHP that allows a user to choose a bank using
-//  the Strategy pattern, creates an instance of the bank class using the Factory pattern, and then calls the chosen bank with the Adapter pattern.
+//  the  pattern, creates an instance of the bank class using the Factory pattern, and then calls the chosen bank with the Adapter pattern.
 
-// PaymentStrategy.php
-interface PaymentStrategy {
+// Payment.php
+interface Payment {
     public function pay($amount);
 }
 
-// Bank1PaymentStrategy.php
-class Bank1PaymentStrategy implements PaymentStrategy {
+// Bank1Payment.php
+class Bank1Payment implements Payment {
     public function pay($amount) {
         // Implement payment with Bank 1
         echo "Payment with Bank 1: $amount\n";
     }
 }
 
-// Bank2PaymentStrategy.php
-class Bank2PaymentStrategy implements PaymentStrategy {
+// Bank2Payment.php
+class Bank2Payment implements Payment {
     public function pay($amount) {
         // Implement payment with Bank 2
         echo "Payment with Bank 2: $amount\n";
     }
 }
 
-// Bank3PaymentStrategy.php
-class Bank3PaymentStrategy implements PaymentStrategy {
+// Bank3Payment.php
+class Bank3Payment implements Payment {
     public function pay($amount) {
         // Implement payment with Bank 3
         echo "Payment with Bank 3: $amount\n";
     }
 }
 
-// PaymentStrategyFactory.php
-class PaymentStrategyFactory {
-    public static function createPaymentStrategy($bank) {
+// PaymentFactory.php
+class PaymentFactory {
+    public static function createPayment($bank) {
         switch ($bank) {
             case 'bank1':
-                return new Bank1PaymentStrategy();
+                return new Bank1Payment();
             case 'bank2':
-                return new Bank2PaymentStrategy();
+                return new Bank2Payment();
             case 'bank3':
-                return new Bank3PaymentStrategy();
+                return new Bank3Payment();
             default:
-                throw new \Exception('Invalid bank selection');
+                throw new \RuntimeException('Invalid bank selection');
         }
     }
 }
@@ -51,7 +51,7 @@ class PaymentStrategyFactory {
 class BankAdapter {
     private $strategy;
 
-    public function __construct(PaymentStrategy $strategy) {
+    public function __construct(Payment $strategy) {
         $this->strategy = $strategy;
     }
 
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $amount = $_POST['amount'];
 
     try {
-        $strategy = PaymentStrategyFactory::createPaymentStrategy($bank);
+        $strategy = PaymentFactory::createPayment($bank);
         $bankAdapter = new BankAdapter($strategy);
         $bankAdapter->makePayment($amount);
     } catch (\Exception $e) {
